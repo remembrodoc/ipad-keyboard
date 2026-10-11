@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>PadKeys — iPad Wi‑Fi Keyboard for Linux</title>
+  <meta name="description" content="PadKeys turns your iPad into a wireless keyboard for your Linux laptop over Wi‑Fi. Type, use shortcuts and special keys — no app install needed." />
+  <meta name="theme-color" content="#070b1f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="PadKeys" />
+  <link rel="apple-touch-icon" href="/icons/icon-180.png" />
+  <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+  </div>
+
+  <!-- ===================== Main keyboard app ===================== -->
+  <main id="app" class="screen">
+    <header class="topbar">
+      <div class="brand">
+        <img src="/icons/icon-192.png" alt="" class="brand-logo" />
+        <span class="brand-name">PadKeys</span>
+      </div>
+      <div id="status" class="status" data-state="connecting">
+        <span class="dot"></span>
+        <span id="status-text">Connecting…</span>
+        <span id="latency" class="latency"></span>
+      </div>
+      <button id="btn-clipboard" class="top-btn" aria-label="Clipboard">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+        <span>Clipboard</span>
+      </button>
+      <button id="btn-settings" class="icon-btn" aria-label="Settings">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </header>
+
+    <!-- Special keys -->
+    <section class="keys glass" aria-label="Special keys" id="keys">
+      <div class="key-row">
+        <button class="key" data-key="Escape" id="k-esc">Esc</button>
+        <button class="key" data-key="Tab" id="k-tab">Tab ⇥</button>
+        <button class="key mod" data-mod="ctrl" id="k-ctrl">Ctrl</button>
+        <button class="key mod" data-mod="alt" id="k-alt">Alt</button>
+        <button class="key mod" data-mod="shift" id="k-shift">Shift ⇧</button>
+        <button class="key mod" data-mod="meta" id="k-super">Super ❖</button>
+        <button class="key toggle" id="k-fn">Fn</button>
+        <span class="spacer"></span>
+        <button class="key" data-key="Home" id="k-home">Home</button>
+        <button class="key" data-key="End" id="k-end">End</button>
+        <button class="key" data-key="PageUp" id="k-pgup">PgUp</button>
+        <button class="key" data-key="PageDown" id="k-pgdn">PgDn</button>
+        <button class="key" data-key="Delete" data-repeat id="k-del">Del ⌦</button>
+        <button class="key accent-soft" data-key="Backspace" data-repeat id="k-bksp">⌫</button>
+        <button class="key accent" data-key="Enter" id="k-enter">Enter ↵</button>
+      </div>
+      <div class="key-row arrows-row">
+        <div id="fn-row" class="fn-row" hidden>
+          <button class="key sm" data-key="F1">F1</button><button class="key sm" data-key="F2">F2</button>
+          <button class="key sm" data-key="F3">F3</button><button class="key sm" data-key="F4">F4</button>
+          <button class="key sm" data-key="F5">F5</button><button class="key sm" data-key="F6">F6</button>
+          <button class="key sm" data-key="F7">F7</button><button class="key sm" data-key="F8">F8</button>
+          <button class="key sm" data-key="F9">F9</button><button class="key sm" data-key="F10">F10</button>
+          <button class="key sm" data-key="F11">F11</button><button class="key sm" data-key="F12">F12</button>
+        </div>
+        <span class="spacer"></span>
+        <div class="arrows">
+          <button class="key arrow" data-key="ArrowLeft" data-repeat id="k-left" aria-label="Left">←</button>
+          <div class="arrows-vert">
+            <button class="key arrow" data-key="ArrowUp" data-repeat id="k-up" aria-label="Up">↑</button>
+            <button class="key arrow" data-key="ArrowDown" data-repeat id="k-down" aria-label="Down">↓</button>
+          </div>
+          <button class="key arrow" data-key="ArrowRight" data-repeat id="k-right" aria-label="Right">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Type area + Trackpad side-by-side row -->
+    <div class="middle-row">
+      <section class="typepad glass" id="typepad">
+        <div class="typepad-head">
+          <h2>Type here</h2>
+          <span id="mod-hint" class="mod-hint"></span>
+          <span class="spacer"></span>
+          <span class="muted small"><span id="sent-count">0</span> chars sent</span>
+          <button id="btn-clear" class="chip-btn" aria-label="Clear local text">Clear</button>
+        </div>
+        <div class="input-wrap">
+          <div class="placeholder" aria-hidden="true">
+            <span class="ph-title">Tap here to start typing</span>
+            <span class="ph-sub">The iPad keyboard opens — every key appears on your laptop instantly. Dictation 🎙 works too.</span>
+          </div>
+          <textarea id="input" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"
+            enterkeyhint="enter" aria-label="Type here to send keystrokes to your laptop"></textarea>
+        </div>
+      </section>
+
+      <section class="trackpad glass" id="trackpad" aria-label="Trackpad">
+        <div class="trackpad-head">
+          <div class="tp-title-row">
+            <h2>Trackpad</h2>
+            <span class="spacer"></span>
+            <button id="btn-hscroll" class="chip-btn" aria-pressed="false" title="When on, two-finger left/right scrolls sideways instead of Back/Forward">↔ H-Scroll: Off</button>
+          </div>
+          <span class="muted small tp-hint">2 fingers: scroll ↕ · swipe ← Back / → Forward · double-tap &amp; drag to select</span>
+        </div>
+        <div class="trackpad-surface" id="trackpad-surface">
+          <div class="tp-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0-10 10v4a10 10 0 0 0 20 0v-4A10 10 0 0 0 12 2z"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+            <span>Touchpad</span>
+          </div>
+          <div class="tp-scrollbar" id="tp-scrollbar" title="Drag single finger to scroll vertical">
+            <div class="tp-scrollbar-track">
+              <span class="tp-scroll-arrow">▲</span>
+              <div class="tp-scrollbar-thumb" id="tp-scrollbar-thumb"></div>
+              <span class="tp-scroll-arrow">▼</span>
+            </div>
+          </div>
+        </div>
+        <div class="trackpad-buttons">
+          <button id="btn-left-click" class="tp-btn">Left Click</button>
+          <button id="btn-right-click" class="tp-btn">Right Click</button>
+        </div>
+        <div class="tp-quick" id="tp-quick" aria-label="Edit keys">
+          <button id="q-copy" class="tp-q" data-q="c">Copy</button>
+          <button id="q-cut" class="tp-q" data-q="x">Cut</button>
+          <button id="q-paste" class="tp-q" data-q="v">Paste</button>
+          <button id="q-all" class="tp-q" data-q="a">Select all</button>
+          <button id="q-undo" class="tp-q" data-q="z">Undo</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Shortcuts -->
+    <section class="shortcuts glass" aria-label="Shortcuts" id="shortcuts">
+      <div class="chips" id="chips"></div>
+    </section>
+  </main>
+
+  <!-- ===================== Settings sheet ===================== -->
+  <div id="sheet-backdrop" class="sheet-backdrop" hidden></div>
+  <aside id="sheet" class="sheet glass" hidden aria-label="Settings">
+    <div class="sheet-head">
+      <h2>Settings</h2>
+      <button id="btn-close-sheet" class="icon-btn" aria-label="Close settings">✕</button>
+    </div>
+    <label class="row">
+      <span><strong>⌘ Cmd acts as Ctrl</strong><small>For a hardware keyboard on the iPad: ⌘C → Ctrl+C on Linux.</small></span>
+      <input type="checkbox" id="opt-cmd" class="switch" checked />
+    </label>
+    <label class="row">
+      <span><strong>Autocorrect &amp; predictions</strong><small>Use iOS autocorrect / suggestions. Off sends exactly what you type.</small></span>
+      <input type="checkbox" id="opt-autocorrect" class="switch" />
+    </label>
+    <label class="row">
+      <span><strong>Show local echo</strong><small>Keep what you type visible on the iPad.</small></span>
+      <input type="checkbox" id="opt-echo" class="switch" checked />
+    </label>
+    <label class="row">
+      <span><strong>Natural scrolling direction</strong><small>Scroll content follows finger movement (macOS/iOS style).</small></span>
+      <input type="checkbox" id="opt-scroll-natural" class="switch" checked />
+    </label>
+    <div class="row info">
+      <span><strong>Connected to</strong><small id="info-host">—</small></span>
+    </div>
+  </aside>
+
+  <!-- ===================== Clipboard sheet ===================== -->
+  <div id="clip-sheet-backdrop" class="sheet-backdrop" hidden></div>
+  <aside id="clip-sheet" class="sheet glass" hidden aria-label="Shared Clipboard">
+    <div class="sheet-head">
+      <h2>Shared Clipboard</h2>
+      <button id="btn-close-clip-sheet" class="icon-btn" aria-label="Close clipboard panel">✕</button>
+    </div>
+    <div class="row info">
+      <span><strong>Sync text between iPad &amp; Laptop</strong><small>Instant 2-way clipboard transfer.</small></span>
+    </div>
+    <div style="margin-top: 15px;">
+      <button id="btn-copy-from-laptop" class="btn-primary" style="margin-bottom: 12px; width: 100%;">📋 Copy from Laptop</button>
+      <button id="btn-paste-to-laptop" class="btn-primary" style="background: hsla(228, 45%, 16%, .75); border: 1px solid var(--stroke-strong); width: 100%;">📥 Paste to Laptop</button>
+    </div>
+  </aside>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
+

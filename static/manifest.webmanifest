@@ -1,0 +1,14 @@
+{
+  "name": "PadKeys",
+  "short_name": "PadKeys",
+  "description": "Use your iPad as a Wi-Fi keyboard for your Linux laptop.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#070b1f",
+  "theme_color": "#070b1f",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
