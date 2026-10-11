@@ -596,21 +596,21 @@
             prev.x = currX;
           }
         } else {
-          // Standard mode: Vertical scroll ↕ OR Two-finger swipe Left (Back) / Right (Forward)
+          // Standard mode: Two-finger swipe Right (Back) / Left (Forward) in Chrome & browsers
           if (!gestureTriggered) {
             const totalDx = currX - gestureStartPos.x;
             const totalDy = currY - gestureStartPos.y;
 
-            if (Math.abs(totalDx) > 50 && Math.abs(totalDx) > Math.abs(totalDy) * 1.4) {
+            if (Math.abs(totalDx) > 35 && Math.abs(totalDx) > Math.abs(totalDy)) {
               gestureTriggered = true;
               if (totalDx > 0) {
-                sendKey('ArrowRight', ['alt']); // Alt+Right (Forward in browsers/files)
-                toast('Forward (Alt+→)');
+                sendKey('ArrowLeft', ['alt']); // Alt+Left = Previous page / Back in Chrome
+                toast('◀ Back (Alt+←)');
               } else {
-                sendKey('ArrowLeft', ['alt']); // Alt+Left (Back in browsers/files)
-                toast('Back (Alt+←)');
+                sendKey('ArrowRight', ['alt']); // Alt+Right = Next page / Forward in Chrome
+                toast('▶ Forward (Alt+→)');
               }
-            } else if (Math.abs(dy) > 4) {
+            } else if (Math.abs(dy) > 4 && Math.abs(totalDy) > 8) {
               const dir = settings.naturalScroll ? (dy > 0 ? 1 : -1) : (dy > 0 ? -1 : 1);
               send({ t: 'scroll', d: dir });
               prev.y = currY;
