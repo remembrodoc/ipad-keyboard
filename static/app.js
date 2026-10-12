@@ -459,12 +459,14 @@
   let pendingDx = 0;
   let pendingDy = 0;
   let moveRafId = null;
+  let lastMoveTime = 0;
 
   function flushMove() {
     if (pendingDx !== 0 || pendingDy !== 0) {
       send({ t: 'move', dx: Math.round(pendingDx), dy: Math.round(pendingDy) });
       pendingDx = 0;
       pendingDy = 0;
+      lastMoveTime = performance.now();
     }
     moveRafId = null;
   }
@@ -472,6 +474,11 @@
   function queueMove(dx, dy) {
     pendingDx += dx;
     pendingDy += dy;
+    const now = performance.now();
+    if (now - lastMoveTime >= 8 && !moveRafId) {
+      flushMove();
+      return;
+    }
     if (!moveRafId) {
       moveRafId = requestAnimationFrame(flushMove);
     }

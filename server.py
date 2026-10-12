@@ -227,7 +227,12 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Sec-WebSocket-Accept", accept)
         self.end_headers()
         self.wfile.flush()
-        self.connection.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        try:
+            self.connection.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+            if hasattr(socket, "TCP_QUICKACK"):
+                self.connection.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
+        except OSError:
+            pass
 
         who = self.client_address[0]
         print(f"  ✓ Connected: {who}")
@@ -237,6 +242,11 @@ class Handler(BaseHTTPRequestHandler):
                 opcode, data = ws_read_frame(self.rfile)
                 if opcode is None or opcode == 0x8:
                     break
+                if hasattr(socket, "TCP_QUICKACK"):
+                    try:
+                        self.connection.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
+                    except OSError:
+                        pass
                 if opcode == 0x9:  # ping
                     ws_send(self.wfile, data, 0xA)
                 elif opcode == 0x1:
